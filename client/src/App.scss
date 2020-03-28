@@ -1,0 +1,26 @@
+@import "../node_modules/picnic/picnic.min.css";
+
+.App {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.gorilla-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: .5em;
+
+  .gorilla {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    justify-content: space-evenly;
+  
+    .header {
+      font-size: larger;
+      font-weight: bold;
+    }
+  }
+}
