@@ -12,8 +12,6 @@ router.get('/', async (req, res, next) => {
 
 // Single gorilla
 router.get('/:id', async (req, res, next) => {
-  //if (req.params.id === 'new') return next();
-
   const gorilla = await Gorilla
     .query()
     .findById(req.params.id);
@@ -27,19 +25,8 @@ router.post('/create', express.json(), async (req, res, next) => {
     gender: req.body.gender
   }
 
-  await Gorilla.query().insert(gorilla);
-  return res.status(200);
-})
-
-router.get('/new/:name', async (req, res, next) => {
-  const gorillaName = req.params.name;
-
-  const gorilla = await Gorilla.query().insert({
-    name: gorillaName,
-    gender: ['m','f','t'][Math.floor(Math.random() * 3)]
-  });
-
-  return res.redirect(`../${gorilla.id}`);
-})
+  const newGorilla = await Gorilla.query().insert(gorilla);
+  return newGorilla ? res.json(newGorilla) : res.status(500);
+});
 
 module.exports = router;
