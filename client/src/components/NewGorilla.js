@@ -1,57 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class NewGorilla extends React.Component {
-  state = {
-    name: "",
-    gender: ""
+function NewGorilla(props) {
+  const [name, setName]     = useState('');
+  const [gender, setGender] = useState('');
+
+
+  function createGorilla() {
+    const gorilla = {name, gender};
+    props.createGorilla(gorilla);
   }
 
-  createGorilla() {
-    const gorilla = {
-      name: this.state.name,
-      gender: this.state.gender
-    }
-
-    console.log("sending gorilla", gorilla);
-    this.props.createGorilla(gorilla);
+  function updateName(event) {
+    setName(event.target.value);
   }
 
-  updateField(event) {
-    this.setState({ [event.target.name]: event.target.value })
+  function updateGender(event) {
+    setGender(event.target.value);
   }
 
-  render() {
-    return <article>
-             <header>
-               <h3>Create a Gorilla</h3>
-               <label htmlFor="new-gorilla" className="close">&times;</label>
-             </header>
-             <section className="content">
-               <fieldset>
-                 <input type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={this.state.name}
-                        onChange={(e) => this.updateField(e)} />
-                 <input type="text"
-                        name="gender"
-                        placeholder="Gender"
-                        value={this.state.gender}
-                        onChange={(e) => this.updateField(e)} />
-               </fieldset>
-             </section>
-             <footer>
-               <button type="button"
-                       className="button"
-                       onClick={() => this.createGorilla()}>
-                 Create
-               </button>
-               <label htmlFor="new-gorilla" className="button dangerous">
-                 Cancel
-               </label>
-             </footer>
-          </article>
-  }
+  
+  return <article>
+            <header>
+              <h3>Create a Gorilla</h3>
+              <label htmlFor="new-gorilla" className="close">&times;</label>
+            </header>
+            <section className="content">
+              <fieldset>
+                <input type="text"
+                      className="stack"
+                      name="name"
+                      placeholder="Name"
+                      value={name}
+                      onChange={(e) => updateName(e)} />
+                <input type="text"
+                      className="stack"
+                      name="gender"
+                      placeholder="Gender"
+                      value={gender}
+                      onChange={(e) => updateGender(e)} />
+              </fieldset>
+            </section>
+            <footer>
+              <button type="button"
+                      className="button"
+                      onClick={() => createGorilla()}>
+                Create
+              </button>
+              <label htmlFor="new-gorilla" className="button dangerous">
+                Cancel
+              </label>
+            </footer>
+        </article>
+
 }
 
 export default NewGorilla;

@@ -1,14 +1,20 @@
 import React from 'react';
+import { useRoutes } from 'hookrouter';
+import routes from './router';
 import './App.scss';
-
-import GorillaList from './components/GorillaList';
+import NavBar from './components/NavBar';
 
 function App() {
+  const routeMatch = useRoutes(routes);
+
   return (
     <div className="App">
-      <h1>Welcome to gorilla.garden</h1>
-      <hr/>
-      <GorillaList/>
+      <NavBar />
+      <section>
+        <h1>Welcome to gorilla.garden</h1>
+        <hr/>
+        {routeMatch}
+      </section>
     </div>
   );
 }

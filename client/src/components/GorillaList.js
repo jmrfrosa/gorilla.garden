@@ -1,62 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import connector from '../scripts/connector';
 import Gorilla from './Gorilla';
 import NewGorilla from './NewGorilla';
 
-class GorillaList extends React.Component {
-  constructor() {
-    super();
+function GorillaList() {
+  const [gorillas, setGorillas] = useState([]);
 
-    this.createGorilla = this.createGorilla.bind(this);
-  }
-  
-  state = {
-    gorillas: []
-  }
+  useEffect(() => {
+    fetchGorillas();
+  }, []);
 
-  componentDidMount() {
-    this.fetchGorillas();
-  }
-
-  fetchGorillas() {
-    console.log("fetching gorillas!");
+  function fetchGorillas() {
     connector.getGorillas()
-             .then(jsonResponse => {
-                console.log(jsonResponse);
-                this.setState({ gorillas: jsonResponse });
-              });
+             .then(response => {
+                console.log(response);
+                setGorillas(response.data);
+              })
+              .catch((error) => connector.handleError(error));
   }
 
-  async createGorilla(gorilla) {
-    console.log("creating gorilla", gorilla);
-    //await connector.addGorilla(gorilla);
-    await this.fetchGorillas();
+  function createGorilla(gorilla) {
+    connector.addGorilla(gorilla)
+             .then(response => {
+               fetchGorillas();
+             })
+             .catch((error) => connector.handleError(error));
   }
 
-  render() {
-    return <div>
-             <div className="gorilla-list">
-                {this.state.gorillas.map(gorilla => <Gorilla key={gorilla.id}
-                                                            name={gorilla.name}
-                                                            gender={gorilla.gender}
-                                                            birthDate={gorilla.created_at}/>)
-                }
-             </div>
+  return <div>
+            <div className="gorilla-list">
+              {gorillas.map(gorilla => <Gorilla key={gorilla.id}
+                                                name={gorilla.name}
+                                                gender={gorilla.gender}
+                                                birthDate={gorilla.created_at}
+              />)}
+            </div>
 
-             <hr/>
-             <div>
-                <label htmlFor="new-gorilla" className="button">
-                  Create gorilla
-                </label>
+            <hr/>
+            <div>
+              <label htmlFor="new-gorilla" className="button">
+                Create gorilla
+              </label>
 
-                <div className="modal">
-                  <input id="new-gorilla" type="checkbox" />
-                  <label htmlFor="new-gorilla" className="overlay"></label>
-                  <NewGorilla createGorilla={this.createGorilla} />
-                </div>
-             </div>
-    </div>
-  }
+              <div className="modal">
+                <input id="new-gorilla" type="checkbox" />
+                <label htmlFor="new-gorilla" className="overlay"></label>
+                <NewGorilla createGorilla={createGorilla} />
+              </div>
+            </div>
+  </div>
 }
 
 export default GorillaList;
