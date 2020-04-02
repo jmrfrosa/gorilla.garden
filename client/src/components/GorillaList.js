@@ -27,15 +27,22 @@ function GorillaList() {
              .catch((error) => connector.handleError(error));
   }
 
-  return <div>
-            <div className="gorilla-list">
+  function renderGorillas() {
+    if (gorillas.length) {
+      return <div className="gorilla-list">
               {gorillas.map(gorilla => <Gorilla key={gorilla.id}
                                                 name={gorilla.name}
                                                 gender={gorilla.gender}
                                                 birthDate={gorilla.created_at}
               />)}
             </div>
+    }
 
+    return <div>Looks like there aren't any gorillas in the garden</div>
+  }
+
+  return <div>
+            {renderGorillas()}
             <hr/>
             <div>
               <label htmlFor="new-gorilla" className="button">

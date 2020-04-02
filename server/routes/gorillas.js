@@ -1,5 +1,6 @@
 const express = require('express');
 const Gorilla = require('../models/Gorilla');
+const cryptoHelper = require('../lib/crypto');
 
 const router = express.Router();
 
@@ -21,9 +22,13 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/create', express.json(), async (req, res, next) => {
   const gorilla = {
-    name: req.body.name,
-    gender: req.body.gender
+    name:     req.body.name,
+    gender:   req.body.gender,
+    email:    req.body.email,
+    password: await cryptoHelper.hashPassword(req.body.password)
   }
+
+  console.log("Gorilla", gorilla);
 
   const newGorilla = await Gorilla.query().insert(gorilla);
   return newGorilla ? res.json(newGorilla) : res.status(500);

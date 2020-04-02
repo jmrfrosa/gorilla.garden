@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 function NewGorilla(props) {
   const [name, setName]     = useState('');
   const [gender, setGender] = useState('');
+  const [email, setEmail]   = useState('');
+  const [password, setPassword] = useState('');
 
 
   function createGorilla() {
-    const gorilla = {name, gender};
+    const gorilla = {name, gender, email, password};
     props.createGorilla(gorilla);
   }
 
@@ -18,6 +20,13 @@ function NewGorilla(props) {
     setGender(event.target.value);
   }
 
+  function updateEmail(event) {
+    setEmail(event.target.value);
+  }
+
+  function updatePassword(event) {
+    setPassword(event.target.value);
+  }
   
   return <article>
             <header>
@@ -38,6 +47,18 @@ function NewGorilla(props) {
                       placeholder="Gender"
                       value={gender}
                       onChange={(e) => updateGender(e)} />
+                <input type="email"
+                      className="stack"
+                      name="email"
+                      placeholder="email"
+                      value={email}
+                      onChange={(e) => updateEmail(e)} />
+                <input type="password"
+                      className="stack"
+                      name="password"
+                      placeholder="password"
+                      value={password}
+                      onChange={(e) => updatePassword(e)} />
               </fieldset>
             </section>
             <footer>
